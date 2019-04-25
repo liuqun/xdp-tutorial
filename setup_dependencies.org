@@ -72,7 +72,19 @@ On a machine running the Fedora Linux distribution, install the packages:
 On Debian and Ubuntu installations, install the dependencies like this:
 
 #+begin_example
- $ sudo apt install clang llvm libelf-dev linux-perf
+ $ sudo apt install clang llvm libelf-dev
+#+end_example
+
+Note: Package "linux-perf" is only available on Debian, use:
+
+#+begin_example
+ $ sudo apt install linux-perf
+#+end_example
+
+On Ubuntu, perf command is packaged inside "linux-tools-*", use:
+
+#+begin_example
+ $ sudo apt install linux-tools-`uname -r`
 #+end_example
 
 * Kernel headers dependency
