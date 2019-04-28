@@ -27,6 +27,8 @@ int  xdp_stats1_func(struct xdp_md *ctx)
 {
 	// void *data_end = (void *)(long)ctx->data_end;
 	// void *data     = (void *)(long)ctx->data;
+	// __u64 bytes = data_end - data;
+	__u64 bytes = (__u64)(ctx->data_end - ctx->data);
 	struct datarec *rec;
 	__u32 key = XDP_PASS; /* XDP_PASS = 2 */
 
@@ -43,12 +45,13 @@ int  xdp_stats1_func(struct xdp_md *ctx)
 	 * use an atomic operation.
 	 */
 	lock_xadd(&rec->rx_packets, 1);
-        /* Assignment#1: Add byte counters
-         * - Hint look at struct xdp_md *ctx (copied below)
-         *
-         * Assignment#3: Avoid the atomic operation
-         * - Hint there is a map type named BPF_MAP_TYPE_PERCPU_ARRAY
-         */
+	/* Assignment#1: Add byte counters
+	 * - Hint look at struct xdp_md *ctx (copied below)
+	 */
+	lock_xadd(&rec->rx_bytes, bytes);
+	/* Assignment#3: Avoid the atomic operation
+	 * - Hint there is a map type named BPF_MAP_TYPE_PERCPU_ARRAY
+	 */
 
 	return XDP_PASS;
 }
